@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Idea Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffe6ea 100%);
+        }
+        .bubble {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            position: relative;
+        }
+        .bubble::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            bottom: -10px;
+            left: 30px;
+            transform: rotate(45deg);
+        }
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-2">AI Video Creator</h1>
+            <p class="text-lg text-pink-700">Transform your ideas into magical videos!</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="bubble p-6 md:p-8 mb-8">
+            <textarea id="promptInput" 
+                      class="w-full h-32 p-4 rounded-xl border-2 border-pink-300 focus:border-pink-500 focus:ring focus:ring-pink-200 focus:ring-opacity-50 resize-none"
+                      placeholder="Describe your video idea here... (e.g., 'A cute cat playing piano in a garden full of butterflies')"></textarea>
+            
+            <div class="flex justify-center mt-4">
+                <button onclick="generateVideo()" 
+                        class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 flex items-center gap-2">
+                    <i class="bi bi-camera-video-fill"></i>
+                    Generate Video
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultSection" class="hidden">
+            <div class="result-card rounded-2xl p-6 md:p-8 shadow-lg">
+                <div id="loadingIndicator" class="text-center text-xl text-pink-600 font-medium loading-dots">
+                    Creating your magical video
+                </div>
+                <div id="videoResult" class="hidden">
+                    <h3 class="text-2xl font-bold text-pink-600 mb-4">Your Video Concept</h3>
+                    <div class="bg-gray-100 rounded-xl p-4">
+                        <p id="videoDescription" class="text-gray-700"></p>
+                    </div>
+                    <div class="mt-6 flex justify-center">
+                        <button onclick="newGeneration()" 
+                                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                            Generate New Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateVideo() {
+            const prompt = document.getElementById('promptInput').value.trim();
+            if (!prompt) {
+                alert('Please enter a description for your video!');
+                return;
+            }
+
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('videoResult').classList.add('hidden');
+
+            // Simulate AI processing
+            setTimeout(() => {
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                document.getElementById('videoResult').classList.remove('hidden');
+                
+                const videoDescription = document.getElementById('videoDescription');
+                videoDescription.textContent = `Based on your prompt: "${prompt}"\n\nI've generated a concept for a unique video that incorporates your ideas with creative elements. The video would feature smooth transitions, professional effects, and high-quality visuals that bring your vision to life.`;
+            }, 3000);
+        }
+
+        function newGeneration() {
+            document.getElementById('promptInput').value = '';
+            document.getElementById('resultSection').classList.add('hidden');
+        }
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
